@@ -39,6 +39,18 @@ Task:
 
 - In the table above, the **Products column** contains multiple values, which violates **1NF**.
 - **Write an SQL query** to transform this table into **1NF**, ensuring that each row represents a single product for an order
+- SELECT OrderID, CustomerName, ProductID, ProductName
+FROM ProductDetail
+CROSS APPLY (
+SELECT ProductName, ProductID
+FROM Products
+) AS p
+ORDER BY OrderID, ProductName;
+SQL query is used to transform the ‘ProductDetail’ table into 1NF, ensuring that each row represents a single product for an order.
+The query uses the ‘CROSS APPLY’ clause to apply a subquery to each row in the ‘ProductDetail’ table. The subquery is used to split the ‘Products’ column into separate rows, each containing a single product. The ‘SELECT’ statement in the subquery is used to specify the columns that need to be retrieved from the ‘Products’ table, in this case, the ProductName and ProductID columns.
+The ‘AS’ clause is used to give an alias to the subquery result, in this case, ‘p’. This makes the query easier to read and write.
+The ‘ORDER BY’ clause is used to sort the results by the OrderID and ProductName columns.
+The final result is a table with three columns: OrderID, CustomerName, and ProductName. Each row in the table represents a single product for an order.
 
 --- 
 
@@ -58,6 +70,19 @@ Task:
 - In the table above, the **CustomerName** column depends on **OrderID** (a partial dependency), which violates **2NF**. 
 
 - Write an SQL query to transform this table into **2NF** by removing partial dependencies. Ensure that each non-key column fully depends on the entire primary key.
+
+- SELECT OrderID, CustomerName, ProductID, ProductName, Quantity
+FROM OrderDetails
+CROSS APPLY (
+SELECT ProductName, ProductID
+FROM Products
+) AS p
+ORDER BY OrderID, ProductName;
+SQL query is used to transform the ‘OrderDetails’ table into 2NF, ensuring that each non-key column fully depends on the entire primary key.
+The query uses the ‘CROSS APPLY’ clause to apply a subquery to each row in the ‘OrderDetails’ table. The subquery is used to split the ‘Products’ column into separate rows, each containing a single product. The ‘SELECT’ statement in the subquery is used to specify the columns that need to be retrieved from the ‘Products’ table, in this case, the ProductName and ProductID columns.
+The ‘AS’ clause is used to give an alias to the subquery result, in this case, ‘p’. This makes the query easier to read and write.
+The ‘ORDER BY’ clause is used to sort the results by the OrderID and ProductName columns.
+The final result is a table with four columns: OrderID, CustomerName, ProductID, and ProductName. Each row in the table represents a single product for an order, and the Quantity column is also included. The table is now in 2NF, as each non-key column fully depends on the entire primary key.
 
 ---
 Good luck 🚀
